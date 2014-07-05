@@ -1,0 +1,24 @@
+<!-- SUPER IMPORTANTE
+EN LOS HIJOS, EL CONTENIDO NO SE VE SI NO ESTÁ
+DENTRO DE UN BLOQUE -->
+<h1>{{contacto}}</h1>
+<div id="respuesta-servidor"></div>
+
+<form id="contactar-forma" action="/contactar" method="post">
+	<label for="nombre">NOMBRE:</label>
+	<input type="text" name="nombre"/>
+	<br>
+	<label for="email">E-MAIL:</label>
+    <input type="email" name="email" pattern="[a-z]+@[a-z]+(.)[a-z]+" required/>
+    <br>
+    <label for="website">WEBSITE:</label>
+	<input type="url" name="website"/>
+	<br>
+	<label for="edad">EDAD:</label>
+	<input type="number" name="edad"/>
+	<br>
+	<label for="comentario">COMENTARIO:</label>
+	<textarea name="comentario" required></textarea>
+	<br>
+	<input type="submit" value="Enviar"/>
+</form>

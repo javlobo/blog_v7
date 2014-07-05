@@ -1,0 +1,31 @@
+<h1>{{blog}}</h1>
+
+<!-- SI EL ARREGLO DE OBJETOS NO TIENE ITEMS
+(LOS ARREGLOS TIENEN LA PROPIEDAD length
+PARA SABER CUANTOS ITEMS TIENE ESE ARREGLO)-->
+{%if articulos.length == 0%}
+<h2>No hay articulos en el blog todavia</h2>
+{%else%}
+{%for articulo in articulos%}
+<h2>{{articulo.titulo}}</h2>
+<p>
+	{{articulo.contenido}}
+</p>
+{%endfor%}
+{%endif%}
+
+<nav id="categorias">
+	<ul>
+		{%if categorias.length == 0%}
+		<li>
+			No hay categorias
+		</li>
+		{%else%}
+		{%for cat in categorias%}
+		<li>
+			{{cat.nombre}}
+		</li>
+		{%endfor%}
+		{%endif%}
+	</ul>
+</nav>

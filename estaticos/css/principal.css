@@ -1,0 +1,226 @@
+/*GENERICAS*/
+body {
+	font-size: 20px;
+	font-family:'Lato', sans-serif;
+}
+
+/*definir videos e imagenes*/
+.flexible {
+	max-width: 100%;
+}
+
+figure{
+	margin: 0em;
+}
+
+/*USAMOS EL PSEUDO SELECTOR :invalid*/
+input:required:invalid{
+	background:url("/estaticos/imagenes/incorrecto.png");
+	background-repeat:no-repeat;
+	background-size:20px;
+	background-position: right top;
+}
+
+input:required:valid{
+	background:url("/estaticos/imagenes/correcto.png");
+	background-repeat:no-repeat;
+	background-size:20px;
+	background-position: right top;
+}
+/*------------HEADER-------------*/
+/*SELECTOR DE ETIQUETAS*/
+header {
+	background-color: #e95644;
+	/*background-color:rba(255,0,0,0.2);*/
+	color: white;
+}
+
+header ul{
+	margin:0px;
+}
+
+header li{
+	display: inline-block;
+	padding:1em;
+}
+/*-----------PRESENTACION--------------*/
+#presentacion {
+	background: url("../imagenes/portadas/portada4.jpg");
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center center;
+	background-attachment: fixed;
+	color: white;
+	font-size: 1.5em;
+	height: 15em;
+	line-height: 15em;
+	text-align: center;
+}
+
+/*-----------TESTIMONIOS---------------*/
+/*SELECTOR DE ID*/
+#testimonios {
+	background-color: #454545;
+	color: white;
+	border-bottom:0.3em solid #E95644;
+	padding-top:3em;
+	padding-bottom:3em;
+}
+
+.testimonio {
+	display: inline-block;
+	vertical-align:top;
+	width: 49%;
+}
+
+
+/*---------------SERVICIOS----------------*/
+/*SELECTOR DE CLASE*/
+#servicios {
+	text-align: center;
+	padding-top:3em;
+	padding-bottom:3em;
+}
+.nombre-servicio {
+	text-align: center;
+}
+.servicio {
+	display: inline-block;
+	width: 33%;
+}
+
+/*ESTE ES EL ESTADO INICIAL*/
+.servicio img{
+	/*safari, chrome*/
+	-moz-transition: 1s all ease;
+	-o-transition: 1s all ease;
+	-ms-transition: 1s all ease;
+	-webkit-transition: 1s all ease;
+	 transition: 1s all ease;
+}
+
+/*ESTE ES EL ESTADO FINAL*/
+.servicio img:hover{
+	/*safari, chrome*/
+	/*-webkit-transform: rotate(-45deg);*/
+	-webkit-transform: scale(1.5);
+}
+/*--------------FOOTER------------------*/
+footer{
+	background-color:rgb(52,52,52);
+	color:white;
+}
+
+#sociales, #suscribir {
+	display: inline-block;
+	margin-top:3em;
+	vertical-align:top;
+	width: 49%;
+}
+
+/*Selector de descendientes*/
+#sociales img{
+	margin:1em;
+	-moz-transition: 0.5s all ease;
+	-o-transition: 0.5s all ease;
+	-ms-transition: 0.5s all ease;
+	-webkit-transition: 0.5s all ease;
+	 transition: 0.5s all ease;
+}
+
+#sociales img:hover{
+	-webkit-transform: rotateX(180deg);
+}
+
+#suscribir-email{
+	width:50%;
+    /*PREFIJOS DEL VENDEDOR*/
+   /*1° VALOR EN SEGUNDOS 2° QUE PROPIEDAD QUIERO ANIMAR 3° QUE FUNCION DE ANIMACION VOY A UTILIZAR*/
+	-moz-transition: 1s all ease;
+	-o-transition: 1s all ease;
+	-ms-transition: 1s all ease;
+	-webkit-transition: 1s all ease;
+	transition: 1s all ease;
+	color:#000000;
+}
+
+/*FOCUS ME PERMITE SABER CUANDO ALGUIEN ESTA ESCRIBIENDO EN LA CAJA*/
+#suscribir-email:focus{
+	width:80%;
+	
+}
+/*SELECTOR DE DESCENCIENTES + SELECTOR DE ATRIBUTOS*/
+#suscribir input[type="submit"]{
+	color:#000000;	
+}
+
+/*CHAT*/
+#chat {
+	width: 80%;
+	background-color: #3b3b3b;
+	padding: 1.5em;
+	margin:2em auto 2em auto;	
+}
+
+#chat h1 {
+	text-align: center;
+}
+
+#chat h1, #chat h4, #chat p {
+	color: white;
+}
+
+#mensajes, #mensaje-usuario, #nombre-usuario {
+	background-color: white;
+	color:black;
+	min-height: 1em;	
+}
+
+.mensaje {
+	padding: 5px;
+	border-bottom: 1px #3b3b3b solid;
+}
+
+.mensaje span {
+	color: red;
+}
+
+#mensaje-usuario {
+	padding: 0px;
+	width: 100%;
+	border-width: 0px;
+	margin-bottom: 3px;
+}
+
+/*INICIA DISEÑO RESPONSIVO*/
+
+@media screen and (max-width:900px){
+	.testimonio{
+		width:100%;
+	}
+}
+
+/*
+ * max-width = de 0 al valor definido aplica las siguientes
+ */
+
+@media screen and (max-width:775px){
+	.servicio {
+		text-align:center;
+		width:100%;
+	}
+}
+
+@media screen and (max-width:750px){
+	#sociales, #suscribir{
+		text-align:center;
+		width:100%;
+	}
+}
+
+@media screen and (max-width:450px){
+	header li{
+		text-align:center;
+		width:100%;
+	}
+}

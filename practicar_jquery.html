@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+	<head lang="es">
+		<meta charset="utf-8"/>
+		<title>jquery</title>
+		<script src="estaticos/javascript/lib/jquery.min.js"></script>
+		<script>
+			//DENTRO DE ESTA FUNCION VA EL CODIGO PARA MANIPULAR EL DOM
+			$(function() {
+				$("#boton1").click(function() {
+					var caja = $("#nombre-paisaje");
+					caja.html("nuevo texto usando jquery!");
+					caja.addClass("rojo");
+					
+					var imagen = $("#imagen-principal");
+					//LA ANIMACION DE JQUERY ES ASINCRONA
+					imagen.fadeOut("slow",function(){
+						//ESTA ES LA FUNCION DE CALLBACK
+						imagen.attr("src","estaticos/imagenes/imagen2.jpg");
+						imagen.fadeIn("slow");
+					});
+					
+				});
+			});
+		</script>
+		<style>
+			.rojo {
+				color: red;
+			}
+		</style>
+	</head>
+	<body>
+		<button id="boton1">
+			Siguiente
+		</button>
+		<figure>
+			<img id="imagen-principal" src="estaticos/imagenes/imagen1.jpg"/>
+			<figcaption id="nombre-paisaje">
+				Paisaje 1
+			</figcaption>
+		</figure>
+	</body>
+</html>

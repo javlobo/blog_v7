@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+	<head lang="es">
+		<meta charset="utf-8"/>
+		<title>JavaScript intro</title>
+		<script>
+		//JAVASCRIPT ES UN LENGUAJE BASADO EN PROGRAMACION FUNCIONAL
+		var nombre= "javier";
+		var edad = 28;
+		
+		//javascript del lado del cliente
+		//JAVASCRIPT USA EL TIPO DE DATO FLOAT
+		//IEE754
+		//TODOS LOS NÚMEROS SON DE TIPO FLOAT DE TODOS LOS LENGUAJES
+		function calculaArea(miFuncion){
+			return miFuncion(1);
+		}
+		
+		var calculaAreaCirculo = function (radio){
+			return 3.14*radio*radio;
+		};
+		
+		//alert(calculaArea(calculaAreaCirculo));
+		
+		//PRIMERA FORMA DE DECLARAR UN OBJETO EN JAVASCRIPT
+		//HERENCIA DE PROTOTIP
+		//PARADIGMA ORIENTADO A OBJETOS
+		//FUNCION ANONIMA (LAMBDA)
+		var persona= new Object();
+		persona.nombre= "Jose";
+		persona.hablar= function(){
+			alert("Hola soy: " + this.nombre);
+		};
+		
+		//persona.hablar();
+		
+		//FORMA 2 DE DECLARAR OBJETOS
+		var persona2 = {
+			nombre :"Javi",
+			hablar : function(){
+				alert("Hola soy: " + this.nombre);
+			},
+			hermano:persona
+		};
+		
+		persona2.hermano.hablar();
+		</script>
+	</head>
+	<body>
+		<!-- nada de contenido -->
+	</body>
+</html>
+
