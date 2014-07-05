@@ -4,12 +4,38 @@
 		<meta charset="utf-8"/>
 		<title>JSONP ejemplo</title>
 		<script src="estaticos/javascript/lib/jquery.min.js"></script>
-		<script>
-			
-		</script>
 	</head>
 	<body>
-		<div id="imagenes"></div>
+		<div id="imagenes">
+		</div>
+		<script>
+		
+		//LAS VARIABLES GLOBALES SON INHERENTEMENTE MALVDAS!
+		//PARA NO TENER VARIABLES GLOBALES O FUNCIONES
+		//UNA TECNICA MUY UTIL ES USAR CLOSURES  Y FUNCIONES AUTOEJECUTABLES
+			$.getJSON("http://api.flickr.com/services/feeds/photos_public.gne?ids=61481595@N05&format=json&jsoncallback=?",function(datos) {
+				//POR QUE PONGO .items?
+				//PORQUE YO SE QUE EL API JSON DE FLICKR CONTIENE LA PROPIEDAD ITEMS
+				//SABEMOS AL VER EL API QUE items ES UN ARREGLO DE JAVASCRIPT
+				var fotos = datos.items;
+
+				//PUEDO ITERAR USANDO LO SIGUIENTE:
+				fotos.forEach(function(foto) {
+					var titulo = foto.title;
+					var urlImagen = foto.media.m;
+					var descripcion= foto.description;
+
+					var caja = "<div>" +
+									"<h2>"+titulo+"</h2>"+
+									"<figure>"+
+										"<img src='"+ urlImagen +"'/>"+
+										"<figcaption>"+descripcion+ "</figcaption>"+ 
+									"</figure>"+
+								"</div>";
+					$("#imagenes").append(caja);
+				});
+			});
+		</script>
 	</body>
 </html>
 
