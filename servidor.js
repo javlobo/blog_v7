@@ -38,12 +38,16 @@ app.use("/estaticos", serveIndex(__dirname + "/estaticos"));
 app.use(bodyParser());
 
 rutas.configurar(app);
-modulos.configurar();
+modulos.configurar(function(){
+	//CUANDO YA ESTA LISTA LA CONEXION,
+	//ENTONCES AHORA SI, ESCUCHO PETICIONES DE LOS USUARIOS.
+	servidor.listen(8081);
+});
 
 //HABILITA WEBSOCKETS EN EL SERVIDOR CON SOCKET.IO
 //io= me permite escuchar y responder a mis clientes usando websockets
 var io = socketIO.listen(servidor);
-servidor.listen(8081);
+
 
 console.log("SERVIDOR WEB LISTO"); 
 
