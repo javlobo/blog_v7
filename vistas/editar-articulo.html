@@ -1,0 +1,21 @@
+{%extends "layout.html"%}
+{%block contenido%}
+{%if datosActualizados == 'true'%}
+	<div>Ha cambiado esta chunche</div>
+{%endif%}
+<form action="/blog/guardar" method="post">
+	<div>
+		<label>id</label>
+		<input type="text" name="id" value="{{articulo.id}}"/>
+	</div>
+	<div>
+		<label>Titulo</label>
+		<input type="text" name="titulo" value="{{articulo.titulo}}"/>
+	</div>
+	<div>
+		<label>Contenido</label>
+		<input type="text" name="contenido" value="{{articulo.contenido}}"/>
+	</div>
+	<input type="submit" name="Guardar"/>
+</form>
+{%endblock%}

@@ -12,7 +12,8 @@
     "sanitizer": "~0.1.1",
     "sequelize": "~1.7.9",
     "sqlite3": "~2.2.3",
-    "pg": "~3.3.0"
+    "pg": "~3.3.0",
+    "express-session": "~1.6.5"
   },
   "devDependencies": {},
   "scripts": {

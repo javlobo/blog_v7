@@ -5,6 +5,7 @@ var serveIndex = require("serve-index");
 var serveStatic = require("serve-static");
 var socketIO= require("socket.io");
 var sanitizer = require("sanitizer");
+var expressSession = require("express-session");
 
 //---------LIBRERIA CORE DE NODE JS--------------
 var http= require("http");
@@ -24,6 +25,24 @@ var app = express();
 //ESTO LO HACEMOS PARA PODER USAR WEBSOCKETS
 var servidor= http.createServer(app);
 
+//CONFIGURAMOS LA SESION DEL SERVIDOR
+var sesionUsuario = expressSession({
+	//ESTA PROPIEDAD SIRVE PARA GENERAR EL ID QUE IDENTIFICA DE MANERA UNICA A UN CLIENTE
+	secret : 'lalalalallaperraalalala',
+	//ES EL NOMBRE DE LA COOKIE DE SESION
+	key : 'millavesesion',
+	//LOS DOS PARAMETROS SIGUIENTES SON PARA FORZAR QUE EL SERVIDOR CREE UNA SESION
+	//POR CADA CLIENTE
+	resave : true,
+	saveUninitialized : true,
+	//ES EL TIEMPO DE VIDA DE LA SESION
+	cookie : {
+		// 1 MES EN MILISEGUNDOS
+		maxAge : 31 * 24 * 60 * 60 * 1000
+	}
+});
+
+app.use(sesionUsuario);
 //CONFIGURAMOS NUNJUCKS PARA TRABAJAR CON EXPRESS
 //__dirname = RUTA ACTUAL EN LA QUE SE ENCUENTRA ESTE ARCHIVO
 nunjucks.configure(__dirname + "/vistas", {
@@ -41,7 +60,14 @@ rutas.configurar(app);
 modulos.configurar(function(){
 	//CUANDO YA ESTA LISTA LA CONEXION,
 	//ENTONCES AHORA SI, ESCUCHO PETICIONES DE LOS USUARIOS.
-	servidor.listen(8081);
+	//servidor.listen(8081);
+	if (process.env.OPENSHIFT_NODEJS_PORT) {
+		//codigo en el servidor de openshift
+		servidor.listen(process.env.OPENSHIFT_NODEJS_PORT,process.env.OPENSHIFT_NODEJS_IP);
+	} else {
+		//codigo local
+		servidor.listen(8081);
+	}
 });
 
 //HABILITA WEBSOCKETS EN EL SERVIDOR CON SOCKET.IO

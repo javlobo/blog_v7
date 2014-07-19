@@ -1,6 +1,6 @@
 //Cambio!!!!git status
 
-var socket = io.connect("http://localhost:8081");
+var socket = io.connect(location.origin);
 
 socket.on("actualiza-contador",function(datosServidor){
 	$("#contador").html(datosServidor.contadorUsuarios);

@@ -4,6 +4,19 @@ var modelos = require("../modulos/modulos.js");
 module.exports.CONSTANTE1 = "valor1";
 
 module.exports.configurar = function(app) {
+	//-------DEFINIMOS MIDDLEWARE PARA VALIDAR SESION------------
+	function validarSesion(request,response,next){
+		
+		//CHECAMOS SI LA PROPIEDAD usuarioLogueado
+		//EXISTE EN LA SESION ASOCIADA A ESTE USUARIO
+		if(typeof request.session.usuarioLogueado ==="undefined"){
+			response.redirect("/login");
+		}else{
+			//si el usuario ya se logueo, lo dejamos pasar
+			next();
+		}
+	};
+	
 	//CUANDO ALGUIEN PONGA http://localhost:8081/
 	function mostrarInicio(request, response, nombreVista) {
 		response.render(nombreVista, {
@@ -166,6 +179,97 @@ module.exports.configurar = function(app) {
 				usuario : usuario
 			});
 		});
+	});
+	
+	//==================LOGICA DE LOGIN DE USUARIO============
+	
+	app.get("/login",function(request,response){
+		response.render("login.html");
+	});
+	
+	app.get("/logout",function(request,response){
+		request.session.destroy();
+		response.send("HAS CERRADO LA SESION");
+	});
+	
+	app.post("/autentificar",function(request,response){
+		var email=request.body.email;
+		var password= request.body.password;
+		
+		//Buscamos usando el email y el password que nos pasaron
+		modelos.Usuario.find({
+			where:{
+				email:email,
+				password:password
+			}
+		}).success(function(usuarioEncontrado){
+			
+			//SI EL USUARIO NO EXISTE
+			if(usuarioEncontrado === null){
+				response.render("login.html",{
+					error:true
+				});
+			}else{
+				//SI EXISTE
+				request.session.usuarioLogueado={
+					email:usuarioEncontrado.email,
+					id:usuarioEncontrado.id
+				};
+				response.render("login-correcto.html");
+			}
+		});
+	});
+	
+	//Agregamos middleware de validar sesion
+	app.get("/blog/:articuloId([0-9]+)/editar", validarSesion, function(request, response) {
+		var articuloId = request.params.articuloId;
+		modelos.Articulo.find({
+			where : {
+				id : articuloId
+			}
+		}).success(function(articulo) {
+			response.render("editar-articulo.html", {
+				articulo : articulo,
+				//esta bandera viene si el usuario actualizo algun articulo
+				datosActualizados:request.query.datosActualizados
+			});
+		});
+	});
+	
+	app.get("/blog/crear",function(request,response){
+		response.render("editar-articulo.html");
+	});
+
+	app.post("/blog/guardar",validarSesion, function(request,response){
+		var articuloId= parseInt(request.body.id);
+		
+		//si no nos pasaron un id de un articulo
+		//significa que vamos a crear uno nuevo
+		if(isNaN(articuloId)){
+			modelos.Articulo.create({
+				titulo:request.body.titulo,
+				contenido:request.body.contenido,
+				fecha_creacion:new Date(),
+				usuario_id:request.session.usuarioLogueado.id
+			}).success(function(articuloNuevo){
+				response.redirect("/blog/"+ articuloNuevo.id+"/editar?datosActualizados=true");
+			});
+			
+		}else{
+			//si nos pasan un id, significa que vamos actualizar
+			modelos.Articulo.find(articuloId).success(function(articulo){
+			articulo.titulo=request.body.titulo;
+			articulo.contenido=request.body.contenido;
+			
+			articulo.save().success(function(){
+				//Aqui ya se actualizó una entidad
+				//USAMOS EL PATRON POST REDIRECT GET
+				//lo redirigimos a /blog/numero/editar
+				response.redirect("/blog/"+articulo.id+"/editar?datosActualizados=true");	
+			});
+		});
+		}
+		//Buscamos el articulo que queremos actualizar
 	});
 
 };

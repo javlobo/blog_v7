@@ -1,17 +1,31 @@
 var Sequelize= require("sequelize");
 
-//DEFINIMOS LA CONFIGURACION DE LA BASE
-//NOMBRE DB, USER, PASS
-var sequelize= new Sequelize("database","usuario","password",{
-	dialect:"sqlite", //mariadb,mysql,postgres
-	//ESTE PARAMETRO ES SOLO PARA SQLITE
-	storage:__dirname + "/database.db",
-	port:3306,//este puerto sirve tambien para mysql, para postgres 5432
-	define:{
-		timestamps:false,
-		freezeTableName:true
-	}
-});
+if (process.env.OPENSHIFT_NODEJS_PORT) {
+	//codigo en el servidor de openshift
+	var sequelize = new Sequelize("blogv7", "admindymwrkl", "AEJYJvZJ-czT", {
+		dialect : "postgres",
+		host : process.env.OPENSHIFT_POSTGRESQL_DB_HOST,
+		port : process.env.OPENSHIFT_POSTGRESQL_DB_PORT, 
+		define : {
+			timestamps : false,
+			freezeTableName : true
+		}
+	});
+} else {
+	//codigo local
+	//DEFINIMOS LA CONFIGURACION DE LA BASE
+	//NOMBRE DB, USER, PASS
+	var sequelize= new Sequelize("database","usuario","password",{
+		dialect:"sqlite", //mariadb,mysql,postgres
+		//ESTE PARAMETRO ES SOLO PARA SQLITE
+		storage:__dirname + "/database.db",
+		port:3306,//este puerto sirve tambien para mysql, para postgres 5432
+		define:{
+			timestamps:false,
+			freezeTableName:true
+		}
+	});
+}
 
 //COMO SE HACE EN TODOS LOS LENGUAJES
 //    var archivoFinal= obtenerArchivo("ruta");
@@ -38,7 +52,8 @@ var Articulo = sequelize.define("Articulo",{
 	id:{
 		//LE DECIMOS QUE ESTA COLUMNA ES LA LLAVE PRIMARIA DE LA TABLA
 		primaryKey:true,
-		type:Sequelize.INTEGER
+		type:Sequelize.INTEGER,
+		autoIncrement:true
 	},
 	titulo:Sequelize.TEXT,
 	contenido:Sequelize.TEXT,
